@@ -7,7 +7,6 @@ namespace GcpClient.Runtime.Places.Photo
     {
         public const string BaseUrl = "https://maps.googleapis.com/maps/api/place/photo";
         public float TimeoutSec => _timeoutSec;
-        [SerializeField] private PlacesConfig _placesConfig;
         [SerializeField] private float _timeoutSec = 5f;
         
     }

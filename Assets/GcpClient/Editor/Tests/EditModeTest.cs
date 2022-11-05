@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Cysharp.Threading.Tasks;
 using GcpClient;
 using GcpClient.GcpClient.Runtime;
 using GcpClient.Runtime;
 using NUnit.Framework;
-using PlasticGui;
-using UnityEngine;
 using UnityEngine.TestTools;
 
 public class EditModeTest
@@ -27,7 +24,9 @@ public class EditModeTest
     public IEnumerator SimpleParamsApiRequestGetTest() => UniTask.ToCoroutine(async () =>
     {
         var httpClient = new BaseHttpClient("https://api.agify.io");
-        var response = await httpClient.RequestAsync(RequestMethod.Get, parameters: new SimpleParameter("name", "meelad"));
+        var response = await httpClient.RequestAsync(
+            requestMethod: RequestMethod.Get,
+            parameters: new SimpleParameter[] { new("name", "meelad") });
         Assert.IsNotNull(response);
         Assert.IsNotEmpty(response);
         Assert.AreEqual("{\"age\":32,\"count\":21,\"name\":\"meelad\"}", response);

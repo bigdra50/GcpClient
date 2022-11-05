@@ -1,6 +1,6 @@
 ﻿namespace GcpClient.Runtime.Places.Photo.Request
 {
-    public class PhotoReference : IParameter
+    public struct PhotoReference : IParameter
     {
         public string Key { get; }
         public string Value { get; }
@@ -12,7 +12,7 @@
         }
     }
 
-    public class MaxHeight : IParameter
+    public struct MaxHeight : IParameter
     {
         public string Key { get; }
         public string Value { get; }
@@ -23,7 +23,7 @@
             Value = value.ToString();
         }
     }
-    public class MaxWidth : IParameter
+    public struct MaxWidth : IParameter
     {
         public string Key { get; }
         public string Value { get; }

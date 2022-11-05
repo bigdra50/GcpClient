@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿using GcpClient.Runtime.Places.Details;
+using GcpClient.Runtime.Places.Photo;
+using GcpClient.Runtime.Places.Search.FindPlace;
+using GcpClient.Runtime.Places.Search.NearbySearch;
+using GcpClient.Runtime.Places.Search.TextSearch;
 using UnityEngine;
 
 namespace GcpClient.Runtime.Places
@@ -19,8 +23,20 @@ namespace GcpClient.Runtime.Places
             }
         }
 
+        public PhotoConfig PhotoConfig => _photoConfig;
+        public DetailsConfig DetailsConfig => _detailsConfig;
+        public NearbySearchConfig NearbySearchConfig => _nearbySearchConfig;
+        public FindPlaceConfig FindPlaceConfig => _findPlaceConfig;
+        public TextSearchConfig TextSearchConfig => _textSearchConfig;
+
         [SerializeField] private string _apiKeyIos;
         [SerializeField] private string _apiKeyAndroid;
         [SerializeField] private string _apiKeyAny;
+
+        [SerializeField] private PhotoConfig _photoConfig;
+        [SerializeField] private DetailsConfig _detailsConfig;
+        [SerializeField] private NearbySearchConfig _nearbySearchConfig;
+        [SerializeField] private FindPlaceConfig _findPlaceConfig;
+        [SerializeField] private TextSearchConfig _textSearchConfig;
     }
 }

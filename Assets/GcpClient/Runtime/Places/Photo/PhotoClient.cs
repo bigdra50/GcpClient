@@ -12,25 +12,60 @@ namespace GcpClient.Runtime.Places.Photo
         private readonly BaseHttpClient _client;
         private readonly PhotoConfig _photoConfig;
 
-        public PhotoClient(PlacesConfig placesConfig, PhotoConfig photoConfig)
+        public PhotoClient(string apiKey)
         {
-            _photoConfig = photoConfig;
-            _client = new BaseHttpClient(PhotoConfig.BaseUrl, new SimpleParameter("key", placesConfig.ApiKey));
+            _client = new BaseHttpClient(PhotoConfig.BaseUrl, new SimpleParameter("key", apiKey));
         }
 
         public async UniTask<Texture2D> RequestAsync(
             PhotoReference photoReference,
-            MaxHeight maxHeight = null,
-            MaxWidth maxWidth = null,
+            MaxHeight maxHeight,
             CancellationToken cancellationToken = default)
         {
             var photo = await _client.RequestTextureAsync(
                 RequestMethod.Get,
+                new IParameter[]
+                {
+                    photoReference,
+                    maxHeight
+                },
                 _photoConfig.TimeoutSec,
-                cancellationToken,
-                photoReference,
-                maxHeight,
-                maxWidth);
+                cancellationToken);
+            return photo;
+        }
+
+        public async UniTask<Texture2D> RequestAsync(
+            PhotoReference photoReference,
+            MaxWidth maxWidth,
+            CancellationToken cancellationToken = default)
+        {
+            var photo = await _client.RequestTextureAsync(
+                RequestMethod.Get,
+                new IParameter[]
+                {
+                    photoReference, maxWidth
+                },
+                _photoConfig.TimeoutSec,
+                cancellationToken);
+            return photo;
+        }
+
+        public async UniTask<Texture2D> RequestAsync(
+            PhotoReference photoReference,
+            MaxHeight maxHeight,
+            MaxWidth maxWidth,
+            CancellationToken cancellationToken = default)
+        {
+            var photo = await _client.RequestTextureAsync(
+                RequestMethod.Get,
+                new IParameter[]
+                {
+                    photoReference,
+                    maxHeight,
+                    maxWidth
+                },
+                _photoConfig.TimeoutSec,
+                cancellationToken);
             return photo;
         }
     }
