@@ -1,20 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GcpClient.Runtime.Places.Photo;
 using GcpClient.Runtime.Places.Utils;
 
 namespace GcpClient.Runtime.Places.Response
 {
-    public enum PlacesSearchStatus
-    {
-        Ok,
-        ZeroResults,
-        InvalidRequest,
-        OverQueryLimit,
-        RequestDenied,
-        UnknownError,
-    }
-
     [Serializable]
     public struct PlacesNearbySearchResponseDto
     {
@@ -24,6 +15,13 @@ namespace GcpClient.Runtime.Places.Response
         public string error_message;
         public string[] info_messages;
         public string next_page_token;
+
+        public (PlaceSearchMeta meta, List<PlaceInfo> places) ToPlaceInfo()
+        {
+            var meta = new PlaceSearchMeta(status, error_message, html_attributions, info_messages, next_page_token);
+            var placeInfo = results.Select(x => x.ToPlaceInfo()).ToList();
+            return (meta, placeInfo);
+        }
     }
 
     [Serializable]
@@ -61,15 +59,7 @@ namespace GcpClient.Runtime.Places.Response
         public string vicinity;
         public string website;
 
-        public PlaceInfo ToPlaceInfo()
-        {
-            var geographicInfo = new GeographicInfo();
-            return new PlaceInfo()
-            {
-            };
-        }
-
-        public BasicInfo ToBasicInfo() => new(
+        public PlaceInfo ToPlaceInfo() => new(
             address_components,
             adr_address,
             business_status,
@@ -97,7 +87,7 @@ namespace GcpClient.Runtime.Places.Response
 
         public AddressComponent ToAddressInfo() =>
             new(long_name, short_name, types.Select(x =>
-                DtoHelper.PlaceTypeResponseTable[x]).ToArray());
+                DtoHelper.PlaceTypeTable2Map[x]).ToArray());
     }
 
     [Serializable]

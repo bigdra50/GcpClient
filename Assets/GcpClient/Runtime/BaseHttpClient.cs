@@ -47,6 +47,7 @@ namespace GcpClient
             {
                 Query = CreateQuery(parameters),
             };
+            Debug.Log(uriBuilder.Uri);
             return await RequestAsync(requestMethod, uriBuilder.Uri, timeout, cancellationToken);
         }
 

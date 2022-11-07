@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using GcpClient.Runtime.Places.Photo;
+﻿using System.Linq;
 using GcpClient.Runtime.Places.Utils;
-using UnityEngine;
 
 namespace GcpClient.Runtime.Places.Response
 {
@@ -12,33 +9,10 @@ namespace GcpClient.Runtime.Places.Response
     public struct PlaceInfo
     {
         public BasicInfo Basic { get; }
+        public ContactInfo Contact { get; }
+        public AtmosphereInfo AtmosphereInfo { get; }
 
-        public PlaceInfo(BasicInfo basic) : this()
-        {
-            Basic = basic;
-        }
-    }
-
-    public struct BasicInfo
-    {
-        public AddressComponent[] AddressComponents { get; }
-        public string AdrAddress { get; }
-        public BusinessStatus BusinessStatus { get; }
-        public string FormattedAddress { get; }
-        public Geometry Geometry { get; }
-        public string IconUrl { get; }
-        private readonly Color _iconBgColor;
-        public string IconMaskBaseUri { get; }
-        public string Name { get; }
-        public PlacePhoto[] Photos { get; }
-        public string PlaceId { get; }
-        public PlusCodeDto PlusCode { get; }
-        public PlaceType[] PlaceTypes { get; }
-        public string Url { get; }
-        public int UtcOffset { get; }
-        public string Vicinity { get; }
-
-        public BasicInfo(
+        public PlaceInfo(
             AddressComponentDto[] addressComponents,
             string adrAddress,
             string businessStatus,
@@ -54,64 +28,106 @@ namespace GcpClient.Runtime.Places.Response
             string[] types,
             string url,
             int utcOffset,
-            string vicinity)
+            string vicinity) : this()
         {
-            AddressComponents = addressComponents.Select(x => x.ToAddressInfo()).ToArray();
-            AdrAddress = adrAddress;
-            BusinessStatus = DtoHelper.BusinessStatusTable[businessStatus];
-            FormattedAddress = formattedAddress;
-            Geometry = geometry;
-            IconUrl = icon;
-            IconMaskBaseUri = iconMaskBaseUri;
-            ColorUtility.TryParseHtmlString(iconBackGroundColor, out _iconBgColor);
-            Name = name;
-            Photos = photos.Select(x => x.ToPlacePhoto()).ToArray();
-            PlaceId = placeId;
-            PlusCode = plusCode;
-            PlaceTypes = types.Select(x => DtoHelper.PlaceTypeTable[x]).ToArray();
-            Url = url;
-            UtcOffset = utcOffset;
-            Vicinity = vicinity;
+            Basic = new BasicInfo(
+                addressComponents,
+                adrAddress,
+                businessStatus,
+                formattedAddress,
+                geometry,
+                icon,
+                iconMaskBaseUri,
+                iconBackGroundColor,
+                name,
+                photos,
+                placeId,
+                plusCode,
+                types,
+                url,
+                utcOffset,
+                vicinity);
+        }
+
+        public PlaceInfo(BasicInfo basicInfo) : this()
+        {
+            Basic = basicInfo;
+        }
+
+        public PlaceInfo(BasicInfo basicInfo,
+            PlaceOpeningHoursDto currentOpeningHours,
+            string formattedPhoneNumber,
+            string internationalPhoneNumber,
+            PlaceOpeningHoursDto openingHours,
+            PlaceOpeningHoursDto secondaryOpeningHours,
+            string website) : this(basicInfo)
+        {
+            Contact = new ContactInfo(
+                currentOpeningHours,
+                formattedPhoneNumber,
+                internationalPhoneNumber,
+                openingHours,
+                secondaryOpeningHours,
+                website);
+        }
+
+        public PlaceInfo RegisterContactInfo(
+            PlaceOpeningHoursDto currentOpeningHours,
+            string formattedPhoneNumber,
+            string internationalPhoneNumber,
+            PlaceOpeningHoursDto openingHours,
+            PlaceOpeningHoursDto secondaryOpeningHours,
+            string website) => new(
+            Basic,
+            currentOpeningHours,
+            formattedPhoneNumber,
+            internationalPhoneNumber,
+            openingHours,
+            secondaryOpeningHours,
+            website);
+
+
+        public override string ToString()
+        {
+            return $"Basic Info: \n" +
+                   $"Name: {Basic.Name}\n" +
+                   $"Business Status: {Basic.BusinessStatus.ToString()}\n" +
+                   $"Adr Address: {Basic.AdrAddress}\n" +
+                   $"Formatted Address: {Basic.FormattedAddress}\n" +
+                   $"Url: {Basic.Url}\n" +
+                   $"Utc Offset: {Basic.UtcOffset}\n" +
+                   $"Vicinity: {Basic.Vicinity}\n" +
+                   $"PlaceID: {Basic.PlaceId}\n" +
+                   $"Icon URL: {Basic.IconUrl}\n" +
+                   $"Icon BG Color: {Basic.IconBgColor}\n" +
+                   $"IconMaskBaseUrl: {Basic.IconMaskBaseUri}" +
+                   $"Geometry: \n" +
+                   $"-- Location: ({Basic.Geometry.location.lat},{Basic.Geometry.location.lng})\n" +
+                   $"-- Viewport: \n" +
+                   $"---- North East: ({Basic.Geometry.viewport.northeast.lat}, {Basic.Geometry.viewport.northeast.lng})\n" +
+                   $"---- South West: ({Basic.Geometry.viewport.southwest.lat}, {Basic.Geometry.viewport.southwest.lng}\n" +
+                   $"PlusCode:\n" +
+                   $"-- global code: {Basic.PlusCode.global_code}\n" +
+                   $"-- compound code: {Basic.PlusCode.compound_code}\n" +
+                   $"Place Types: \n{Basic.PlaceTypes.Aggregate("", (current, basicPlaceType) => current + $"- {basicPlaceType}\n")}";
         }
     }
 
-    /// <summary>
-    /// 施設情報
-    /// </summary>
-    public struct FacilityInfo
+    public struct PlaceSearchMeta
     {
-        public bool IsSupportedCurbsidePickup { get; }
-        public bool IsOpenNow { get; }
-        public SecondaryOpeningHoursType SecondaryOpeningHoursType { get; }
-        public string[] WeekDayTexts { get; }
-        public PlaceType[] PlaceTypes { get; }
-    }
+        public PlacesSearchStatus Status { get; }
+        public string ErrorMessages { get; }
+        public string[] HtmlAttributions { get; }
+        public string[] InfoMessages { get; }
+        public string NextPageToken { get; }
 
-    public struct AddressComponent
-    {
-        public string LongName { get; }
-        public string ShortName { get; }
-        public ResponsePlaceType[] Types { get; }
-
-        public AddressComponent(string longName, string shortName, ResponsePlaceType[] types)
+        public PlaceSearchMeta(string status, string errorMessages, string[] htmlAttributions, string[] infoMessages, string nextPageToken)
         {
-            LongName = longName;
-            ShortName = shortName;
-            Types = types;
-        }
-    }
-
-    public struct PlaceOpeningHoursPeriodDetail
-    {
-        public DayOfWeek DayOfWeek { get; }
-        public DateTime DateTime { get; }
-        public bool IsTruncated { get; }
-
-        public PlaceOpeningHoursPeriodDetail(DayOfWeek dayOfWeek, DateTime dateTime, bool isTruncated)
-        {
-            DayOfWeek = dayOfWeek;
-            DateTime = dateTime;
-            IsTruncated = isTruncated;
+            Status = DtoHelper.PlacesSearchStatusTable[status];
+            ErrorMessages = errorMessages;
+            HtmlAttributions = htmlAttributions;
+            InfoMessages = infoMessages;
+            NextPageToken = nextPageToken;
         }
     }
 }

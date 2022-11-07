@@ -171,7 +171,7 @@ namespace GcpClient.Runtime.Places.Search.NearbySearch.Request
         public Radius(int value)
         {
             Key = "radius";
-            Value = $"{Math.Min(value, 0)}";
+            Value = $"{Math.Max(value, 0)}";
         }
     }
 
@@ -218,7 +218,7 @@ namespace GcpClient.Runtime.Places.Search.NearbySearch.Request
         public string Key { get; }
         public string Value { get; }
 
-        public Type(PlaceType placeType)
+        public Type(PlaceTypeTable1 placeType)
         {
             Key = "type";
             Value = placeType.ToString().ToLower();
