@@ -39,7 +39,6 @@ namespace GcpClient.Runtime.Places.Photo
             MaxWidth maxWidth,
             CancellationToken cancellationToken = default)
         {
-            Debug.Log("Request Async");
             var photo = await _client.RequestTextureAsync(
                 RequestMethod.Get,
                 new IParameter[]
@@ -48,7 +47,6 @@ namespace GcpClient.Runtime.Places.Photo
                 },
                 _photoConfig.TimeoutSec,
                 cancellationToken);
-            if(photo==null) Debug.Log("photo is null");
             return photo;
         }
 

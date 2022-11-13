@@ -58,7 +58,6 @@ namespace GcpClient
             CancellationToken cancellationToken = default)
         {
             if (requestMethod != RequestMethod.Get) throw new NotImplementedException();
-            Debug.Log("Request Texture Async");
             var uriBuilder = new System.UriBuilder(_baseUri)
             {
                 Query = CreateQuery(parameters),
@@ -69,7 +68,6 @@ namespace GcpClient
             {
                 var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutTokenSource.Token);
 
-                Debug.Log(uriBuilder.Uri.AbsoluteUri);
                 var request = UnityWebRequestTexture.GetTexture(uriBuilder.Uri);
                 var response = await request.SendWebRequest().WithCancellation(linkedTokenSource.Token);
                 return DownloadHandlerTexture.GetContent(response);

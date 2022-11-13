@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using GcpClient.Runtime;
 using GcpClient.Runtime.Places;
-using GcpClient.Runtime.Places.Photo;
-using GcpClient.Runtime.Places.Photo.Request;
 using GcpClient.Runtime.Places.Search.NearbySearch;
 using GcpClient.Runtime.Places.Search.NearbySearch.Request;
 using NUnit.Framework;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace GcpClient.Editor.Tests
 {
-    public class PlacesTest
+    public class PlacesNearbySearchTest
     {
         private PlacesConfig _placesConfig;
         private string _mockLocation = "35.7375750771276,139.65359324873822";
@@ -24,36 +19,39 @@ namespace GcpClient.Editor.Tests
         [SetUp]
         public void Setup()
         {
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+        }
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
             _placesConfig = Resources.Load<PlacesConfig>("Places/PlacesConfig");
         }
 
-
-        [UnityTest]
-        public IEnumerator PhotoRequestTest() => UniTask.ToCoroutine(async () =>
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
-            var photoConfig = _placesConfig.PhotoConfig;
-            await UniTask.Delay(TimeSpan.FromSeconds(.5f));
-            Assert.NotNull(_placesConfig, "placesConfig != null");
-            Assert.NotNull(_placesConfig.ApiKey, "_placesConfig.ApiKey != null");
-            Assert.NotNull(photoConfig, "photoConfig != null");
-            var client = new PhotoClient(_placesConfig.ApiKey, photoConfig);
-            var photo = await client.RequestAsync(
-                new PhotoReference(
-                    "Aap_uEA7vb0DDYVJWEaX3O-AtYp77AaswQKSGtDaimt3gt7QCNpdjp1BkdM6acJ96xTec3tsV_ZJNL_JP-lqsVxydG3nh739RE_hepOOL05tfJh2_ranjMadb3VoBYFvF0ma6S24qZ6QJUuV6sSRrhCskSBP5C1myCzsebztMfGvm7ij3gZT"),
-                new MaxWidth(400));
-            Assert.NotNull(photo, "photo != null");
-            Assert.Greater(photo.width, 0);
-        });
+        }
 
-        [UnityTest]
+        [Test]
+        public void ValidateConfig()
+        {
+            Assert.NotNull(_placesConfig, "placesConfig != null");
+            Assert.IsFalse(string.IsNullOrEmpty(_placesConfig.ApiKey), "string.IsNullOrEmpty(_placesConfig.ApiKey)");
+        }
+
+
+        [UnityEngine.TestTools.UnityTest]
         public IEnumerator NearbySearchTest1() => UniTask.ToCoroutine(async () =>
         {
-            Assert.NotNull(_placesConfig, "placesConfig != null");
-            Assert.IsNotEmpty(_placesConfig.ApiKey);
             var client = new NearbySearchClient(_placesConfig.ApiKey);
             var searchResult = await client.RequestAsync(
                 new Location(_mockLocation),
-                new List<IParameter>()
+                new List<IParameter>
                 {
                     new Radius(300),
                     new Language(LanguageType.Ja)
