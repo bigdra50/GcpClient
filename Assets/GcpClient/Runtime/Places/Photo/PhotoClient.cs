@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using GcpClient.GcpClient.Runtime;
 using GcpClient.Runtime.Places.Photo.Request;
@@ -12,9 +11,10 @@ namespace GcpClient.Runtime.Places.Photo
         private readonly BaseHttpClient _client;
         private readonly PhotoConfig _photoConfig;
 
-        public PhotoClient(string apiKey)
+        public PhotoClient(string apiKey, PhotoConfig photoConfig)
         {
             _client = new BaseHttpClient(PhotoConfig.BaseUrl, new SimpleParameter("key", apiKey));
+            _photoConfig = photoConfig;
         }
 
         public async UniTask<Texture2D> RequestAsync(
@@ -39,6 +39,7 @@ namespace GcpClient.Runtime.Places.Photo
             MaxWidth maxWidth,
             CancellationToken cancellationToken = default)
         {
+            Debug.Log("Request Async");
             var photo = await _client.RequestTextureAsync(
                 RequestMethod.Get,
                 new IParameter[]
@@ -47,6 +48,7 @@ namespace GcpClient.Runtime.Places.Photo
                 },
                 _photoConfig.TimeoutSec,
                 cancellationToken);
+            if(photo==null) Debug.Log("photo is null");
             return photo;
         }
 

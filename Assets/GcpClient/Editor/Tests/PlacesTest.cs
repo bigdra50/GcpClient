@@ -10,6 +10,7 @@ using GcpClient.Runtime.Places.Photo.Request;
 using GcpClient.Runtime.Places.Search.NearbySearch;
 using GcpClient.Runtime.Places.Search.NearbySearch.Request;
 using NUnit.Framework;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -33,12 +34,13 @@ namespace GcpClient.Editor.Tests
             var photoConfig = _placesConfig.PhotoConfig;
             await UniTask.Delay(TimeSpan.FromSeconds(.5f));
             Assert.NotNull(_placesConfig, "placesConfig != null");
+            Assert.NotNull(_placesConfig.ApiKey, "_placesConfig.ApiKey != null");
             Assert.NotNull(photoConfig, "photoConfig != null");
-            var client = new PhotoClient(_placesConfig.ApiKey);
+            var client = new PhotoClient(_placesConfig.ApiKey, photoConfig);
             var photo = await client.RequestAsync(
-                photoReference: new PhotoReference(
+                new PhotoReference(
                     "Aap_uEA7vb0DDYVJWEaX3O-AtYp77AaswQKSGtDaimt3gt7QCNpdjp1BkdM6acJ96xTec3tsV_ZJNL_JP-lqsVxydG3nh739RE_hepOOL05tfJh2_ranjMadb3VoBYFvF0ma6S24qZ6QJUuV6sSRrhCskSBP5C1myCzsebztMfGvm7ij3gZT"),
-                maxWidth: new MaxWidth(400));
+                new MaxWidth(400));
             Assert.NotNull(photo, "photo != null");
             Assert.Greater(photo.width, 0);
         });
