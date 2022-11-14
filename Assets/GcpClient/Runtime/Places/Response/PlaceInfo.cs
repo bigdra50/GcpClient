@@ -13,46 +13,24 @@ namespace GcpClient.Runtime.Places.Response
         public ContactInfo Contact { get; }
         public AtmosphereInfo AtmosphereInfo { get; }
 
-        public PlaceInfo(
-            AddressComponentDto[] addressComponents,
-            string adrAddress,
-            string businessStatus,
-            string formattedAddress,
-            Geometry geometry,
-            string icon,
-            string iconMaskBaseUri,
-            string iconBackGroundColor,
-            string name,
-            PlacePhotoDto[] photos,
-            string placeId,
-            PlusCodeDto plusCode,
-            string[] types,
-            string url,
-            int utcOffset,
-            string vicinity) : this()
-        {
-            Basic = new BasicInfo(
-                addressComponents,
-                adrAddress,
-                businessStatus,
-                formattedAddress,
-                geometry,
-                icon,
-                iconMaskBaseUri,
-                iconBackGroundColor,
-                name,
-                photos,
-                placeId,
-                plusCode,
-                types,
-                url,
-                utcOffset,
-                vicinity);
-        }
-
         public PlaceInfo(BasicInfo basicInfo) : this()
         {
             Basic = basicInfo;
+        }
+
+        public PlaceInfo(BasicInfo basicInfo, ContactInfo contactInfo) : this(basicInfo)
+        {
+            Contact = contactInfo;
+        }
+
+        public PlaceInfo(BasicInfo basicInfo, ContactInfo contactInfo, AtmosphereInfo atmosphereInfo): this(basicInfo, contactInfo)
+        {
+            AtmosphereInfo = atmosphereInfo;
+        }
+
+        public PlaceInfo(BasicInfo basicInfo, AtmosphereInfo atmosphereInfo): this(basicInfo)
+        {
+            AtmosphereInfo = atmosphereInfo;
         }
 
         public PlaceInfo(BasicInfo basicInfo,

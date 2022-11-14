@@ -3,19 +3,18 @@ using GcpClient.Runtime.Places.Response;
 
 namespace GcpClient.Runtime.Places.Field
 {
+    /// <summary>
+    /// https://developers.google.com/maps/documentation/places/web-service/place-data-fields#contact
+    /// </summary>
     public struct ContactInfo
     {
-        // TODO: impl
-        public string FormattedPhoneNumber => _formattedPhoneNumber;
-        public string InternationalPhoneNumber => _internationalPhoneNumber;
-        
-        private readonly string _formattedPhoneNumber;
-        private readonly string _internationalPhoneNumber;
+        public string FormattedPhoneNumber { get; }
+        public string InternationalPhoneNumber { get; }
 
-        private readonly OpeningHours _openingHours;
-        private readonly OpeningHours _currentOpeningHours;
-        private readonly OpeningHours _secondaryOpeningHours;
-        private readonly string _website;
+        public OpeningHours Hours { get; }
+        public OpeningHours CurrentOpeningHours { get; }
+        public OpeningHours SecondaryOpeningHours { get; }
+        public string Website { get; }
 
         public ContactInfo(
             string formattedPhoneNumber,
@@ -25,12 +24,12 @@ namespace GcpClient.Runtime.Places.Field
             PlaceOpeningHoursDto secondaryOpeningHours,
             string website)
         {
-            _formattedPhoneNumber = formattedPhoneNumber;
-            _internationalPhoneNumber = internationalPhoneNumber;
-            _openingHours = openingHours.ToOpeningHours();
-            _currentOpeningHours = currentOpeningHours.ToOpeningHours();
-            _secondaryOpeningHours = secondaryOpeningHours.ToOpeningHours();
-            _website = website;
+            FormattedPhoneNumber = formattedPhoneNumber;
+            InternationalPhoneNumber = internationalPhoneNumber;
+            Hours = openingHours.ToOpeningHours();
+            CurrentOpeningHours = currentOpeningHours.ToOpeningHours();
+            SecondaryOpeningHours = secondaryOpeningHours.ToOpeningHours();
+            Website = website;
         }
     }
 

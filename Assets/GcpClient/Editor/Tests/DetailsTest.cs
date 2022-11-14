@@ -46,7 +46,30 @@ namespace GcpClient.Editor.Tests
         }
 
         [UnityTest]
-        public IEnumerator DetailsTestWithEnumeratorPasses() => UniTask.ToCoroutine(async () =>
+        public IEnumerator BasicContactCategoryTest1() => UniTask.ToCoroutine(async () =>
+        {
+            var details = await _client.RequestAsync(new PlaceId("ChIJN1t_tDeuEmsRUsoyG83frY4"),
+                new List<IParameter>
+                {
+                    new Fields(BasicCategory.Name, ContactCategory.FormattedPhoneNumber)
+                });
+            var meta = details.meta;
+            Assert.AreEqual(PlaceDetailsStatus.Ok, meta.Status);
+            if (meta.Status != PlaceDetailsStatus.Ok)
+            {
+                Debug.Log(meta.Status);
+                Debug.Log(meta.InfoMessages);
+                Debug.Log(meta.HtmlAttributions);
+            }
+
+            Assert.NotNull(details.place, "placeInfo != null");
+            Assert.NotNull(details.place.Basic.Name, "placeInfo.Basic.Name != null");
+            Assert.AreEqual(details.place.Basic.Name, "Google Workplace 6");
+            Assert.AreEqual(details.place.Contact.FormattedPhoneNumber, "(02) 9374 4000");
+        });
+
+        [UnityTest]
+        public IEnumerator BasicContactAtmosphereCategoryTest1() => UniTask.ToCoroutine(async () =>
         {
             var details = await _client.RequestAsync(new PlaceId("ChIJN1t_tDeuEmsRUsoyG83frY4"),
                 new List<IParameter>
@@ -65,6 +88,9 @@ namespace GcpClient.Editor.Tests
             Assert.NotNull(details.place, "placeInfo != null");
             Assert.NotNull(details.place.Basic.Name, "placeInfo.Basic.Name != null");
             Assert.NotNull(details.place.Contact.FormattedPhoneNumber);
+            Assert.AreEqual(details.place.Basic.Name, "Google Workplace 6");
+            Assert.AreEqual(details.place.Contact.FormattedPhoneNumber, "(02) 9374 4000");
+            Assert.AreEqual(details.place.AtmosphereInfo.Rating, 4);
         });
     }
 }

@@ -77,23 +77,40 @@ namespace GcpClient.Runtime.Places.Response
         public string website;
 
         public PlaceInfo ToPlaceInfo() => new(
-            address_components,
-            adr_address,
-            business_status,
-            formatted_address,
-            geometry,
-            icon,
-            icon_mask_base_uri,
-            icon_background_color,
-            name,
-            photos,
-            place_id,
-            plus_code,
-            types,
-            url,
-            utc_offset,
-            vicinity);
-        // TODO: ContactInfo版作成
+            new BasicInfo(
+                address_components,
+                adr_address,
+                business_status,
+                formatted_address,
+                geometry,
+                icon,
+                icon_mask_base_uri,
+                icon_background_color,
+                name,
+                photos,
+                place_id,
+                plus_code,
+                types,
+                url,
+                utc_offset,
+                vicinity),
+            new ContactInfo(
+                formatted_phone_number,
+                international_phone_number,
+                opening_hours,
+                current_opening_hours,
+                secondary_opening_hours,
+                website),
+            new AtmosphereInfo(
+                curbside_pickup,
+                delivery,
+                dine_in,
+                editorial_summary,
+                price_level,
+                rating,
+                reviews,
+                takeout,
+                user_ratings_total));
     }
 
     [Serializable]
@@ -148,8 +165,8 @@ namespace GcpClient.Runtime.Places.Response
         public OpeningHours ToOpeningHours() =>
             new(
                 open_now,
-                periods.Select(x => x.ToOpeningHoursPeriod()).ToArray(),
-                special_days.Select(x => x.ToSpecialDay()).ToArray(),
+                periods?.Select(x => x.ToOpeningHoursPeriod()).ToArray(),
+                special_days?.Select(x => x.ToSpecialDay()).ToArray(),
                 type,
                 weekday_text
             );
@@ -219,7 +236,7 @@ namespace GcpClient.Runtime.Places.Response
         public string[] html_attributions;
         public string photo_reference;
 
-        public PlacePhoto ToPlacePhoto() => new PlacePhoto(height, width, html_attributions, photo_reference);
+        public PlacePhoto ToPlacePhoto() => new(height, width, html_attributions, photo_reference);
     }
 
     [Serializable]
