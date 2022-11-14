@@ -21,23 +21,76 @@ namespace GcpClient.Runtime.Places.Details.Request
     public struct Fields : IParameter
     {
         public string Key => "fields";
-        public string Value { get; }
+        public string Value => string.Join(',', _flags);
+        private static readonly List<string> _flags = new();
 
-        public Fields(string raw)
+        public Fields(BasicCategory basic)
         {
-            Value = raw;
+            Init(basic);
         }
 
-        public Fields(BasicCategory basicFlag)
+        public Fields(ContactCategory contact)
         {
-            var fields = new List<string>();
-            foreach (BasicCategory basic in Enum.GetValues(typeof(BasicCategory)))
-            {
-                if (!basicFlag.HasBitFlag(basic)) continue;
-                fields.Add(basic.CategoryToString());
-            }
+            Init(contact);
+        }
 
-            Value = string.Join(',', fields);
+        public Fields(AtmosphereCategory atmosphere)
+        {
+            Init(atmosphere);
+        }
+
+        public Fields(BasicCategory basic, ContactCategory contact) : this(basic)
+        {
+            Init(contact);
+        }
+
+        public Fields(BasicCategory basic, AtmosphereCategory atmosphere) : this(basic)
+        {
+            Init(atmosphere);
+        }
+
+        public Fields(ContactCategory contact, AtmosphereCategory atmosphere) : this(contact)
+        {
+            Init(atmosphere);
+        }
+
+        public Fields(BasicCategory basic, ContactCategory contact, AtmosphereCategory atmosphere) : this(basic, contact)
+        {
+            Init(atmosphere);
+        }
+
+
+        private void Init(BasicCategory flag)
+        {
+            foreach (BasicCategory category in Enum.GetValues(typeof(BasicCategory)))
+            {
+                if (category == BasicCategory.None) continue;
+                if (category == BasicCategory.All) continue;
+                if (!flag.HasBitFlag(category)) continue;
+                _flags.Add(category.CategoryToString());
+            }
+        }
+
+        private void Init(ContactCategory flag)
+        {
+            foreach (ContactCategory category in Enum.GetValues(typeof(ContactCategory)))
+            {
+                if (category == ContactCategory.None) continue;
+                if (category == ContactCategory.All) continue;
+                if (!flag.HasBitFlag(category)) continue;
+                _flags.Add(category.CategoryToString());
+            }
+        }
+
+        private void Init(AtmosphereCategory flag)
+        {
+            foreach (AtmosphereCategory category in Enum.GetValues(typeof(AtmosphereCategory)))
+            {
+                if (category == AtmosphereCategory.None) continue;
+                if (category == AtmosphereCategory.All) continue;
+                if (!flag.HasBitFlag(category)) continue;
+                _flags.Add(category.CategoryToString());
+            }
         }
     }
 

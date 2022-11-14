@@ -116,4 +116,27 @@ namespace GcpClient.Runtime.Places.Response
             NextPageToken = nextPageToken;
         }
     }
+
+    public struct PlaceDetailsMeta
+    {
+        public PlaceDetailsStatus Status { get; }
+        public string[] HtmlAttributions { get; }
+        public string[] InfoMessages { get; }
+
+        public PlaceDetailsMeta(string status, string[] htmlAttributions, string[] infoMessages)
+        {
+            Status = status switch
+            {
+                "OK" => PlaceDetailsStatus.Ok,
+                "ZERO_RESULTS" => PlaceDetailsStatus.ZeroResults,
+                "NOT_FOUND" => PlaceDetailsStatus.NotFound,
+                "INVALID_REQUEST" => PlaceDetailsStatus.InvalidRequest,
+                "OVER_QUERY_LIMIT" => PlaceDetailsStatus.OverQueryLimit,
+                "REQUEST_DENIED" => PlaceDetailsStatus.RequestDenied,
+                "UNKNOWN_ERROR" => PlaceDetailsStatus.UnknownError,
+            };
+            HtmlAttributions = htmlAttributions;
+            InfoMessages = infoMessages;
+        }
+    }
 }

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using GcpClient.GcpClient.Runtime;
 using GcpClient.Runtime.Places.Response;
 using GcpClient.Runtime.Places.Search.NearbySearch.Request;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace GcpClient.Runtime.Places.Search.NearbySearch
@@ -35,6 +36,7 @@ namespace GcpClient.Runtime.Places.Search.NearbySearch
                 cancellationToken);
 
             var result = JsonUtility.FromJson<PlacesNearbySearchResponseDto>(json).ToPlaceInfo();
+            
             return result;
         }
     }

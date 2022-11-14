@@ -23,6 +23,7 @@ namespace GcpClient.Runtime.Places.Field
         Url = 1 << 14,
         UtcOffset = 1 << 15,
         Vicinity = 1 << 16,
+        All = ~(-1 << 17),
     }
 
     [Flags]
@@ -35,6 +36,7 @@ namespace GcpClient.Runtime.Places.Field
         OpeningHours = 1 << 3,
         SecondaryOpeningHours = 1 << 4,
         Website = 1 << 5,
+        All = ~(-1 << 6),
     }
 
     [Flags]
@@ -50,6 +52,7 @@ namespace GcpClient.Runtime.Places.Field
         Reviews = 1 << 6,
         Takeout = 1 << 7,
         UserRatingsTotal = 1 << 8,
+        All = ~(-1 << 9),
     }
 
     public static class FieldCategoryExtensions
@@ -81,7 +84,7 @@ namespace GcpClient.Runtime.Places.Field
             _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
         };
 
-        public static string CategoryToString(ContactCategory category) => category switch
+        public static string CategoryToString(this ContactCategory category) => category switch
         {
             ContactCategory.None => "",
             ContactCategory.CurrentOpeningHours => "current_opening_hours",
@@ -93,7 +96,7 @@ namespace GcpClient.Runtime.Places.Field
             _ => throw new ArgumentOutOfRangeException(nameof(category), category, null)
         };
 
-        public static string CategoryToString(AtmosphereCategory category) => category switch
+        public static string CategoryToString(this AtmosphereCategory category) => category switch
         {
             AtmosphereCategory.None => "",
             AtmosphereCategory.CurbsidePickup => "curbside_pickup",

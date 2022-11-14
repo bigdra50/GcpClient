@@ -26,6 +26,22 @@ namespace GcpClient.Runtime.Places.Response
     }
 
     [Serializable]
+    public struct PlaceDetailsResponse
+    {
+        public string[] html_attributions;
+        public PlaceDto result;
+        public string status;
+        public string[] info_messages;
+
+        public (PlaceDetailsMeta meta, PlaceInfo place) ToPlaceInfo()
+        {
+            var meta = new PlaceDetailsMeta(status, html_attributions, info_messages);
+            var place = result.ToPlaceInfo();
+            return (meta, place);
+        }
+    }
+
+    [Serializable]
     public struct PlaceDto
     {
         public AddressComponentDto[] address_components;
@@ -77,6 +93,7 @@ namespace GcpClient.Runtime.Places.Response
             url,
             utc_offset,
             vicinity);
+        // TODO: ContactInfo版作成
     }
 
     [Serializable]

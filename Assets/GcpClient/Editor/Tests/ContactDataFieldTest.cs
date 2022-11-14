@@ -2,6 +2,8 @@
 using Cysharp.Threading.Tasks;
 using GcpClient.Runtime.Places;
 using GcpClient.Runtime.Places.Details;
+using GcpClient.Runtime.Places.Details.Request;
+using GcpClient.Runtime.Places.Field;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -38,6 +40,20 @@ namespace GcpClient.Editor.Tests
         [Test]
         public void ContactDataFieldTestSimplePasses()
         {
+        }
+
+        [Test]
+        public void BasicAllFieldsParameterTest()
+        {
+            var fields = new Fields(BasicCategory.All);
+            Debug.Log($"{fields.Key}={fields.Value}");
+        }
+
+        [Test]
+        public void MultipleAllFieldsParameterTest()
+        {
+            var fields = new Fields(BasicCategory.All, ContactCategory.All, AtmosphereCategory.All);
+            Debug.Log($"{fields.Key}={fields.Value}");
         }
 
         [UnityTest]

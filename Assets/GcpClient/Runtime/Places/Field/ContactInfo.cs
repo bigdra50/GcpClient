@@ -6,6 +6,9 @@ namespace GcpClient.Runtime.Places.Field
     public struct ContactInfo
     {
         // TODO: impl
+        public string FormattedPhoneNumber => _formattedPhoneNumber;
+        public string InternationalPhoneNumber => _internationalPhoneNumber;
+        
         private readonly string _formattedPhoneNumber;
         private readonly string _internationalPhoneNumber;
 

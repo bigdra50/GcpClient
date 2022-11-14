@@ -30,6 +30,18 @@
         UnknownError,
     }
 
+    public enum PlaceDetailsStatus
+    {
+        Ok,
+        ZeroResults,
+        NotFound,
+        InvalidRequest,
+        OverQueryLimit,
+        RequestDenied,
+        UnknownError,
+    }
+
+
     /// <summary>
     /// https://developers.google.com/maps/documentation/places/web-service/search-nearby#PlaceOpeningHours-type
     /// </summary>
