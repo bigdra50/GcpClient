@@ -1,4 +1,6 @@
-﻿namespace GcpClient.Runtime.Places.Response
+﻿using System;
+
+namespace GcpClient.Runtime.Places.Field
 {
     public struct AtmosphereInfo
     {

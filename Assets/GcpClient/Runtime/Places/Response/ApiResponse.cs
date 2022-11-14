@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GcpClient.Runtime.Places.Field;
 using GcpClient.Runtime.Places.Photo;
 using GcpClient.Runtime.Places.Utils;
 
@@ -122,25 +123,41 @@ namespace GcpClient.Runtime.Places.Response
     public struct PlaceOpeningHoursDto
     {
         public bool open_now;
-        public PlaceOpeningHoursPeriod[] periods;
-        public PlaceSpecialDay[] special_days;
+        public PlaceOpeningHoursPeriodDto[] periods;
+        public PlaceSpecialDayDto[] special_days;
         public string type;
         public string[] weekday_text;
+
+        public OpeningHours ToOpeningHours() =>
+            new(
+                open_now,
+                periods.Select(x => x.ToOpeningHoursPeriod()).ToArray(),
+                special_days.Select(x => x.ToSpecialDay()).ToArray(),
+                type,
+                weekday_text
+            );
     }
 
 
     [Serializable]
-    public struct PlaceOpeningHoursPeriod
+    public struct PlaceOpeningHoursPeriodDto
     {
         public PlaceOpeningHoursPeriodDetailDto open;
         public PlaceOpeningHoursPeriodDetailDto close;
+
+        public OpeningHoursPeriod ToOpeningHoursPeriod() =>
+            new(
+                open.ToPlaceOpeningHoursPeriodDetail(),
+                close.ToPlaceOpeningHoursPeriodDetail());
     }
 
     [Serializable]
-    public struct PlaceSpecialDay
+    public struct PlaceSpecialDayDto
     {
         public string date;
         public bool exceptional_hours;
+
+        public SpecialDay ToSpecialDay() => new(DtoHelper.Rfc3339ToDateTime(date), exceptional_hours);
     }
 
     [Serializable]
@@ -164,17 +181,16 @@ namespace GcpClient.Runtime.Places.Response
                 6 => DayOfWeek.Saturday,
             };
 
-            var dateTime = Rfc3339ToDateTime();
+            var dateTime = Rfc3339ToDateTime(date);
             return new PlaceOpeningHoursPeriodDetail(week, dateTime, truncated);
         }
 
-        private DateTime Rfc3339ToDateTime()
+        private DateTime Rfc3339ToDateTime(string rfc3339)
         {
-            var yyyymmdd = date.Split('-').Select(int.Parse).ToArray();
             var hhmm = int.Parse(time);
             var hour = hhmm / 100;
             var minute = hhmm % 100;
-            return new DateTime(yyyymmdd[0], yyyymmdd[1], yyyymmdd[2], hour, minute, 0);
+            return DtoHelper.Rfc3339ToDateTime(rfc3339).Add(new TimeSpan(hour, minute, 0));
         }
     }
 

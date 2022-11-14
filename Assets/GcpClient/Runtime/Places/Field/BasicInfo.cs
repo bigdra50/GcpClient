@@ -1,10 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GcpClient.Runtime.Places.Photo;
+using GcpClient.Runtime.Places.Response;
 using GcpClient.Runtime.Places.Utils;
 using UnityEngine;
 
-namespace GcpClient.Runtime.Places.Response
+namespace GcpClient.Runtime.Places.Field
 {
+    /// <summary>
+    /// https://developers.google.com/maps/documentation/places/web-service/place-data-fields#basic
+    /// </summary>
     public struct BasicInfo
     {
         public AddressComponent[] AddressComponents { get; }
@@ -49,7 +54,7 @@ namespace GcpClient.Runtime.Places.Response
             _businessStatus = BusinessStatus.Empty;
             if (businessStatus != null)
             {
-                DtoHelper.BusinessStatusTable.TryGetValue(businessStatus, out _businessStatus);
+                DtoHelper.BusinessStatusMap.TryGetValue(businessStatus, out _businessStatus);
             }
 
 
@@ -86,4 +91,5 @@ namespace GcpClient.Runtime.Places.Response
             Types = types;
         }
     }
+
 }

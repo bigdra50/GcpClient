@@ -15,6 +15,7 @@ namespace GcpClient.Editor.Tests
     {
         private PlacesConfig _placesConfig;
         private string _mockLocation = "35.7375750771276,139.65359324873822";
+        private NearbySearchClient _nearbySearchClient;
 
         [SetUp]
         public void Setup()
@@ -30,6 +31,7 @@ namespace GcpClient.Editor.Tests
         public void OneTimeSetUp()
         {
             _placesConfig = Resources.Load<PlacesConfig>("Places/PlacesConfig");
+            _nearbySearchClient = new NearbySearchClient(_placesConfig.ApiKey);
         }
 
         [OneTimeTearDown]
@@ -46,10 +48,9 @@ namespace GcpClient.Editor.Tests
 
 
         [UnityEngine.TestTools.UnityTest]
-        public IEnumerator NearbySearchTest1() => UniTask.ToCoroutine(async () =>
+        public IEnumerator NearbySearchTestBasic1() => UniTask.ToCoroutine(async () =>
         {
-            var client = new NearbySearchClient(_placesConfig.ApiKey);
-            var searchResult = await client.RequestAsync(
+            var searchResult = await _nearbySearchClient.RequestAsync(
                 new Location(_mockLocation),
                 new List<IParameter>
                 {

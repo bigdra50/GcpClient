@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GcpClient.Runtime.Places.Field;
 using GcpClient.Runtime.Places.Utils;
 
 namespace GcpClient.Runtime.Places.Response
@@ -55,36 +56,21 @@ namespace GcpClient.Runtime.Places.Response
         }
 
         public PlaceInfo(BasicInfo basicInfo,
-            PlaceOpeningHoursDto currentOpeningHours,
             string formattedPhoneNumber,
             string internationalPhoneNumber,
             PlaceOpeningHoursDto openingHours,
+            PlaceOpeningHoursDto currentOpeningHours,
             PlaceOpeningHoursDto secondaryOpeningHours,
             string website) : this(basicInfo)
         {
             Contact = new ContactInfo(
-                currentOpeningHours,
-                formattedPhoneNumber,
-                internationalPhoneNumber,
-                openingHours,
-                secondaryOpeningHours,
-                website);
+                formattedPhoneNumber: formattedPhoneNumber,
+                internationalPhoneNumber: internationalPhoneNumber,
+                openingHours: openingHours,
+                currentOpeningHours: currentOpeningHours,
+                secondaryOpeningHours: secondaryOpeningHours,
+                website: website);
         }
-
-        public PlaceInfo RegisterContactInfo(
-            PlaceOpeningHoursDto currentOpeningHours,
-            string formattedPhoneNumber,
-            string internationalPhoneNumber,
-            PlaceOpeningHoursDto openingHours,
-            PlaceOpeningHoursDto secondaryOpeningHours,
-            string website) => new(
-            Basic,
-            currentOpeningHours,
-            formattedPhoneNumber,
-            internationalPhoneNumber,
-            openingHours,
-            secondaryOpeningHours,
-            website);
 
 
         public override string ToString()
@@ -123,7 +109,7 @@ namespace GcpClient.Runtime.Places.Response
 
         public PlaceSearchMeta(string status, string errorMessages, string[] htmlAttributions, string[] infoMessages, string nextPageToken)
         {
-            Status = DtoHelper.PlacesSearchStatusTable[status];
+            Status = DtoHelper.PlacesSearchStatusMap[status];
             ErrorMessages = errorMessages;
             HtmlAttributions = htmlAttributions;
             InfoMessages = infoMessages;

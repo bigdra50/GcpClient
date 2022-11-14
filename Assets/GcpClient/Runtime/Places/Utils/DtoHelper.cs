@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GcpClient.Runtime.Places.Utils
 {
@@ -299,7 +301,7 @@ namespace GcpClient.Runtime.Places.Utils
             { "town_square", PlaceTypeTable2.Town_square },
         };
 
-        public static IReadOnlyDictionary<string, BusinessStatus> BusinessStatusTable = new Dictionary<string, BusinessStatus>
+        public static IReadOnlyDictionary<string, BusinessStatus> BusinessStatusMap = new Dictionary<string, BusinessStatus>
         {
             { "OPERATIONAL", BusinessStatus.Operational },
             { "CLOSED_TEMPORARILY", BusinessStatus.ClosedTemporarily },
@@ -309,7 +311,7 @@ namespace GcpClient.Runtime.Places.Utils
         /// <summary>
         /// https://developers.google.com/maps/documentation/places/web-service/search-nearby#PlacesSearchStatus
         /// </summary>
-        public static IReadOnlyDictionary<string, PlacesSearchStatus> PlacesSearchStatusTable = new Dictionary<string, PlacesSearchStatus>
+        public static IReadOnlyDictionary<string, PlacesSearchStatus> PlacesSearchStatusMap = new Dictionary<string, PlacesSearchStatus>
         {
             { "OK", PlacesSearchStatus.Ok },
             { "ZERO_RESULTS", PlacesSearchStatus.ZeroResults },
@@ -318,5 +320,12 @@ namespace GcpClient.Runtime.Places.Utils
             { "REQUEST_DENIED", PlacesSearchStatus.RequestDenied },
             { "UNKNOWN_ERROR", PlacesSearchStatus.UnknownError },
         };
+
+
+        public static DateTime Rfc3339ToDateTime(string rfc3339)
+        {
+            var yyyymmdd = rfc3339.Split('-').Select(int.Parse).ToArray();
+            return new DateTime(yyyymmdd[0], yyyymmdd[1], yyyymmdd[2]);
+        }
     }
 }
