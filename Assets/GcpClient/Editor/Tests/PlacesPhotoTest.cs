@@ -56,13 +56,12 @@ namespace GcpClient.Editor.Tests
         {
             Assert.NotNull(_placesConfig, "placesConfig != null");
             Assert.IsFalse(string.IsNullOrEmpty(_placesConfig.ApiKey), "string.IsNullOrEmpty(_placesConfig.ApiKey)");
-            Assert.NotNull(_placesConfig.PhotoConfig, "_placesConfig.PhotoConfig != null");
         }
 
         [UnityTest]
         public IEnumerator PhotoRequestTest() => UniTask.ToCoroutine(async () =>
         {
-            var client = new PhotoClient(_placesConfig.ApiKey, _placesConfig.PhotoConfig);
+            var client = new PhotoClient(_placesConfig.ApiKey, _placesConfig);
             var photo = await client.RequestAsync(
                 new PhotoReference(
                     "Aap_uEA7vb0DDYVJWEaX3O-AtYp77AaswQKSGtDaimt3gt7QCNpdjp1BkdM6acJ96xTec3tsV_ZJNL_JP-lqsVxydG3nh739RE_hepOOL05tfJh2_ranjMadb3VoBYFvF0ma6S24qZ6QJUuV6sSRrhCskSBP5C1myCzsebztMfGvm7ij3gZT"),

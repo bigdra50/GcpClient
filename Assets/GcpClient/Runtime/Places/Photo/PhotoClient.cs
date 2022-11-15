@@ -9,12 +9,12 @@ namespace GcpClient.Runtime.Places.Photo
     public class PhotoClient
     {
         private readonly BaseHttpClient _client;
-        private readonly PhotoConfig _photoConfig;
+        private readonly PlacesConfig _config;
 
-        public PhotoClient(string apiKey, PhotoConfig photoConfig)
+        public PhotoClient(string apiKey, PlacesConfig config)
         {
-            _client = new BaseHttpClient(PhotoConfig.BaseUrl, new SimpleParameter("key", apiKey));
-            _photoConfig = photoConfig;
+            _client = new BaseHttpClient(PlacesConfig.PhotoUrl, new SimpleParameter("key", apiKey));
+            _config = config;
         }
 
         public async UniTask<Texture2D> RequestAsync(
@@ -29,7 +29,7 @@ namespace GcpClient.Runtime.Places.Photo
                     photoReference,
                     maxHeight
                 },
-                _photoConfig.TimeoutSec,
+                _config.TimeoutSec,
                 cancellationToken);
             return photo;
         }
@@ -45,7 +45,7 @@ namespace GcpClient.Runtime.Places.Photo
                 {
                     photoReference, maxWidth
                 },
-                _photoConfig.TimeoutSec,
+                _config.TimeoutSec,
                 cancellationToken);
             return photo;
         }
@@ -64,7 +64,7 @@ namespace GcpClient.Runtime.Places.Photo
                     maxHeight,
                     maxWidth
                 },
-                _photoConfig.TimeoutSec,
+                _config.TimeoutSec,
                 cancellationToken);
             return photo;
         }

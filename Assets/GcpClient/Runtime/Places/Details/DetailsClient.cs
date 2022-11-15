@@ -11,11 +11,10 @@ namespace GcpClient.Runtime.Places.Details
     public class DetailsClient
     {
         private readonly BaseHttpClient _client;
-        private readonly DetailsConfig _config;
 
         public DetailsClient(string apiKey)
         {
-            _client = new BaseHttpClient(DetailsConfig.BaseUrl, new SimpleParameter("key", apiKey));
+            _client = new BaseHttpClient(PlacesConfig.DetailsUrl, new SimpleParameter("key", apiKey));
         }
 
         public async UniTask<(PlaceDetailsMeta meta, PlaceInfo place)> RequestAsync(

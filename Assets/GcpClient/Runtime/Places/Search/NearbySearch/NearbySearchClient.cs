@@ -4,7 +4,6 @@ using Cysharp.Threading.Tasks;
 using GcpClient.GcpClient.Runtime;
 using GcpClient.Runtime.Places.Response;
 using GcpClient.Runtime.Places.Search.NearbySearch.Request;
-using NUnit.Framework;
 using UnityEngine;
 
 namespace GcpClient.Runtime.Places.Search.NearbySearch
@@ -12,11 +11,10 @@ namespace GcpClient.Runtime.Places.Search.NearbySearch
     public class NearbySearchClient
     {
         private readonly BaseHttpClient _client;
-        private readonly NearbySearchConfig _config;
 
         public NearbySearchClient(string apiKey)
         {
-            _client = new BaseHttpClient(NearbySearchConfig.BaseUrl, new SimpleParameter("key", apiKey));
+            _client = new BaseHttpClient(PlacesConfig.NearbySearchUrl, new SimpleParameter("key", apiKey));
         }
 
 

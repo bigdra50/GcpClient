@@ -13,13 +13,11 @@ namespace GcpClient.Editor.Tests
     public class ContactDataFieldTest
     {
         private PlacesConfig _placesConfig;
-        private DetailsConfig _detailsConfig;
 
         [OneTimeSetUp]
         public void ContactDataFieldTestOneTimeSetUp()
         {
             _placesConfig = Resources.Load<PlacesConfig>("Places/PlacesConfig");
-            _detailsConfig = _placesConfig.DetailsConfig;
         }
 
         [OneTimeTearDown]
