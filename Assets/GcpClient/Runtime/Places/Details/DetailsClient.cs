@@ -32,7 +32,6 @@ namespace GcpClient.Runtime.Places.Details
                 5f,
                 cancellationToken);
 
-            Debug.Log(json);
             var result = JsonUtility.FromJson<PlaceDetailsResponse>(json).ToPlaceInfo();
             return result;
         }

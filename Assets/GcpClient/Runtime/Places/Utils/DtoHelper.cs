@@ -324,6 +324,7 @@ namespace GcpClient.Runtime.Places.Utils
 
         public static DateTime Rfc3339ToDateTime(string rfc3339)
         {
+            if (string.IsNullOrEmpty(rfc3339)) return default;
             var yyyymmdd = rfc3339.Split('-').Select(int.Parse).ToArray();
             return new DateTime(yyyymmdd[0], yyyymmdd[1], yyyymmdd[2]);
         }
