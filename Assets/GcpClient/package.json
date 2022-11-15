@@ -1,0 +1,17 @@
+{
+  "name": "jp.bigdra50.gcpclient",
+  "displayName": "GCP Client for Unity",
+  "version": "1.0.0",
+  "unity": "2021.1",
+  "description": "Google Cloud Platforms API Client for Unity.",
+  "author": {
+    "name": "bigdra50",
+    "url": "https://github.com/bigdra50"
+  },
+  "keywords": [
+    "gcp",
+    "api client"
+  ],
+  "dependencies": {
+  }
+}
