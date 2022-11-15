@@ -29,7 +29,7 @@ namespace GcpClient.Runtime.Places.Photo
                     photoReference,
                     maxHeight
                 },
-                _config.TimeoutSec,
+                _config.DefaultTimeoutSec,
                 cancellationToken);
             return photo;
         }
@@ -45,7 +45,7 @@ namespace GcpClient.Runtime.Places.Photo
                 {
                     photoReference, maxWidth
                 },
-                _config.TimeoutSec,
+                _config.DefaultTimeoutSec,
                 cancellationToken);
             return photo;
         }
@@ -64,7 +64,7 @@ namespace GcpClient.Runtime.Places.Photo
                     maxHeight,
                     maxWidth
                 },
-                _config.TimeoutSec,
+                _config.DefaultTimeoutSec,
                 cancellationToken);
             return photo;
         }

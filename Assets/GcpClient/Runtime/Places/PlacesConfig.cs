@@ -26,11 +26,11 @@ namespace GcpClient.Runtime.Places
             }
         }
 
-        public float TimeoutSec => _timeoutSec;
+        public float DefaultTimeoutSec => _defaultTimeoutSec;
         
         [SerializeField] private string _apiKeyIos;
         [SerializeField] private string _apiKeyAndroid;
         [SerializeField] private string _apiKeyAny;
-        [SerializeField] private float _timeoutSec = 5f;
+        [SerializeField] private float _defaultTimeoutSec = 5f;
     }
 }

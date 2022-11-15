@@ -4,7 +4,6 @@ using System.Linq;
 using GcpClient.Runtime.Places.Field;
 using GcpClient.Runtime.Places.Photo;
 using GcpClient.Runtime.Places.Utils;
-using UnityEngine;
 
 namespace GcpClient.Runtime.Places.Response
 {
