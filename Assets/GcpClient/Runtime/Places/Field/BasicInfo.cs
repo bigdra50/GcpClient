@@ -20,8 +20,17 @@ namespace GcpClient.Runtime.Places.Field
         public string FormattedAddress { get; }
         public Geometry Geometry { get; }
         public string IconUrl { get; }
-        public Color IconBgColor => _iconBgColor;
-        private readonly Color _iconBgColor;
+
+        public Color IconBgColor
+        {
+            get
+            {
+                ColorUtility.TryParseHtmlString(_iconBgColor, out var iconBgColor);
+                return iconBgColor;
+            }
+        }
+
+        private readonly string _iconBgColor;
         public string IconMaskBaseUri { get; }
         public string Name { get; }
         public PlacePhoto[] Photos { get; }
@@ -63,7 +72,7 @@ namespace GcpClient.Runtime.Places.Field
             Geometry = geometry;
             IconUrl = icon;
             IconMaskBaseUri = iconMaskBaseUri;
-            ColorUtility.TryParseHtmlString(iconBackGroundColor, out _iconBgColor);
+            _iconBgColor = iconBackGroundColor;
             Name = name;
             Photos = photos?.Select(x => x.ToPlacePhoto()).ToArray();
             PlaceId = placeId;
@@ -92,5 +101,4 @@ namespace GcpClient.Runtime.Places.Field
             Types = types;
         }
     }
-
 }
