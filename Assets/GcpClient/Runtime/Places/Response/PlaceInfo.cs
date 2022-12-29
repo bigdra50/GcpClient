@@ -8,7 +8,6 @@ namespace GcpClient.Runtime.Places.Response
     /// <summary>
     /// GoogleMapの場所の情報
     /// </summary>
-    [Serializable]
     public struct PlaceInfo
     {
         public BasicInfo Basic { get; }
