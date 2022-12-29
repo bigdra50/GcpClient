@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GcpClient.Runtime.Places.Field;
 using GcpClient.Runtime.Places.Utils;
 
@@ -7,6 +8,7 @@ namespace GcpClient.Runtime.Places.Response
     /// <summary>
     /// GoogleMapの場所の情報
     /// </summary>
+    [Serializable]
     public struct PlaceInfo
     {
         public BasicInfo Basic { get; }
