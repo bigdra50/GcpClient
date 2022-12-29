@@ -1,10 +1,12 @@
-﻿using GcpClient.Runtime.Places.Response;
+﻿using System;
+using GcpClient.Runtime.Places.Response;
 
 namespace GcpClient.Runtime.Places.Field
 {
     /// <summary>
     /// https://developers.google.com/maps/documentation/places/web-service/place-data-fields#atmosphere
     /// </summary>
+    [Serializable]
     public struct AtmosphereInfo
     {
         /// <summary>

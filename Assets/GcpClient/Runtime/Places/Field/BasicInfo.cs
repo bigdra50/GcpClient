@@ -10,6 +10,7 @@ namespace GcpClient.Runtime.Places.Field
     /// <summary>
     /// https://developers.google.com/maps/documentation/places/web-service/place-data-fields#basic
     /// </summary>
+    [Serializable]
     public struct BasicInfo
     {
         public AddressComponent[] AddressComponents { get; }

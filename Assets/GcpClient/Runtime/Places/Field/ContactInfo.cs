@@ -6,6 +6,7 @@ namespace GcpClient.Runtime.Places.Field
     /// <summary>
     /// https://developers.google.com/maps/documentation/places/web-service/place-data-fields#contact
     /// </summary>
+    [Serializable]
     public struct ContactInfo
     {
         public string FormattedPhoneNumber { get; }
